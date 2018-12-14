@@ -82,14 +82,14 @@ func ExecCommand(cmdName string, cmdArgs []string) {
 	if cmdName == "mongod" {
 		err = cmd.Run()
 		//err = cmd.Wait()
-		color.Red("%s error occurred: ", err)
+		//color.Red("%v error occurred: ", )
 	} else {
 		err = cmd.Start()
-		color.Red("%s error occurred: ", err)
+		//color.Red("%v error occurred: ", err.Error())
 	}
-
+	color.Red("%v", "exec error for ", cmdName , err)
 	err = cmd.Wait()
-
+	color.Red("%v", "wait error: ", err)
 }
 
 func WriteJsonFile(path string, data []byte) error {

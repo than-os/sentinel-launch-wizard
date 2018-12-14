@@ -44,6 +44,10 @@ func StartWizard() {
 		config.EncMethod = "aes-128-cfb"
 
 	}
+	wallet := GenerateTmWallet(config.Account.Name, config.Account.Password)
+	config.Account.Address = wallet.Address
+	config.Account.PubKey = wallet.PubKey
+	config.Account.Seed = wallet.Seed
 	if err != nil {
 		defer StartWizard()
 		color.Red("Error while reading user input. ", err)
@@ -76,16 +80,16 @@ func GenerateTmWallet(name, password string) models.TmAccount {
 	 body := map[string]string{"name": name, "password": password}
 	 bytesData, err := json.Marshal(body)
 	 if err != nil {
-	 	color.Red("%s", "error while user data marshal")
+	 	color.Red("%s", "error while user data marshal: \n", err)
 	 	return wallet
 	 }
 	resp, err := http.Post(constants.COSMOS_URL + "/keys", "application/json" , bytes.NewBuffer(bytesData))
 	if err != nil {
-		color.Red("%s", "error while generating new Tendermint Wallet for the user")
+		color.Red("%s", "error while generating new Tendermint Wallet for the user: \n", err)
 		return wallet
 	}
 	if err := json.NewDecoder(resp.Body).Decode(&wallet); err != nil {
-		color.Red("%s", "error while reading user wallet info")
+		color.Red("%s", "error while reading user wallet info: \n", err)
 		return wallet
 	}
 	defer resp.Body.Close()

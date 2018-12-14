@@ -22,7 +22,7 @@ func init() {
 func main() {
 	services.StartWizard()
 	time.Sleep(time.Second * 2)
-	wallet := services.GenerateTmWallet("qwdscfmddfvvf", "qwerty")
+	wallet := services.GenerateTmWallet("qwdscfmddsdsdsfvvf", "qwerty")
 	color.Cyan("%s", wallet)
 
 }
